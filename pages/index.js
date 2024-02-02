@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from "react";
 import TextInput from "./components/TextInput";
 import Editor from "./components/Editor";
 import RunContainer from "./components/RunContainer";
-import Header from "./components/Header";
+import Header from "./components/header";
 import ImageInput from "./components/ImageInput";
 import egArray from "./components/egArray";
 import ImageUploader from "./components/ImageUploader";
