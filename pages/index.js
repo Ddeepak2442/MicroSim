@@ -661,7 +661,6 @@ export default function Home() {
           setAnalysisResult={updateAnalysisResult}
           dragOver={dragOver}
         />
-            <ImageInput key="textinput-01" textInput={textInput} onChange={textInputChange} onSubmit={textInputSubmit} waiting={waiting} selectVal={selVal} selectChange={textSelectChange} analysisresult={analysisResult}/>
             <Editor key="editor-01" result={result} onChange={editorChange} waiting={waiting} />
           </div>
           <div className="flex flex-col gap-4 2xl:w-1/2">

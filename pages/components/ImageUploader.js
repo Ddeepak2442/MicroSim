@@ -19,7 +19,6 @@ function ImageUploader(props) {
 
   return (
     <div className="rounded-md border border-gray-100 shadow-md shadow-emerald-600/30 bg-white p-3">
-      {/* <div className="text-center mx-auto my-5 p-5 border border-gray-300 rounded-lg max-w-md"> */}
       <div className="flex justify-between xs:mb-2">
           <h3 className="font-semibold text-gray-500">Image Prompt</h3>
           <select 
@@ -74,6 +73,8 @@ function ImageUploader(props) {
           <div className="mt-5">
             <strong>Prompt in Flashcard</strong>
             <textarea value={analysisresult} className="w-full h-36 p-2 mt-2 border border-gray-300 rounded-lg resize-y" />
+            
+        <button className="bg-emerald-500 p-2 rounded w-full text-white text-sm px-3 cursor-pointer" type="submit">Generate MicroSim</button> 
           </div>
         )}
     </div>
