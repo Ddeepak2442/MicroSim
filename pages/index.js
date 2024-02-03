@@ -4,7 +4,6 @@ import TextInput from "./components/TextInput";
 import Editor from "./components/Editor";
 import RunContainer from "./components/RunContainer";
 import Header from "./components/header";
-import ImageInput from "./components/ImageInput";
 import ImageUploader from "./components/ImageUploader";
 
 export default function Home() {
@@ -468,9 +467,6 @@ export default function Home() {
     },
 ];
 
-  const updateAnalysisResult = (result) => {
-    setAnalysisResult(result);
-  };
 
   const handleFileChange = useCallback(async (selectedFile) => {
     setFile(selectedFile);
@@ -658,7 +654,6 @@ export default function Home() {
           handleSubmit={handleSubmit}
           statusMessage={statusMessage}
           analysisresult={analysisresult}
-          setAnalysisResult={updateAnalysisResult}
           dragOver={dragOver}
         />
             <Editor key="editor-01" result={result} onChange={editorChange} waiting={waiting} />
