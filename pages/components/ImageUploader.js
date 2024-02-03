@@ -62,7 +62,7 @@ function ImageUploader(props) {
         <div className="flex justify-center items-center mb-5">
           {uploadProgress === 0 || uploadProgress === 100 ? (
             <button onClick={handleSubmit} className="bg-emerald-500 p-2 rounded w-full text-white text-sm px-3 cursor-pointer">
-              Get prompt from Image
+              Get MicroSim
             </button>
           ) : (
             <progress value={uploadProgress} max="100" className="w-1/2"></progress>
@@ -71,10 +71,8 @@ function ImageUploader(props) {
         {statusMessage && <p className="text-gray-600 mb-5">{statusMessage}</p>}
         {analysisresult && (
           <div className="mt-5">
-            <strong>Prompt in Flashcard</strong>
+            <strong>P5.js Code</strong>
             <textarea value={analysisresult} className="w-full h-36 p-2 mt-2 border border-gray-300 rounded-lg resize-y" />
-            
-        <button className="bg-emerald-500 p-2 rounded w-full text-white text-sm px-3 cursor-pointer" type="submit">Generate MicroSim</button> 
           </div>
         )}
     </div>

@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     console.log('Received image in base64 format');
 
     // Utilize the provided custom prompt or a default prompt if it's not provided.
-    const promptText = customPrompt || "Given Image is flashcard that has 'prompt','Image related to prompt',and 'linkes of wikipedia and p5.js code'.if given image has all these three related items,give prompt present in the image orlse give output as 'please provide proper flashcard.";
+    const promptText = customPrompt || "Do not explain, answer only in code.Given Image is flashcard that has 'prompt','Image related to prompt',and 'linkes of wikipedia and p5.js code'.If given image has all these three related items,Generate p5.js code for the extracted prompt and image present in the flashcard and answer only with code that is ready to run in compiler.";
 
     // Log the chosen prompt
     console.log(`Using prompt: ${promptText}`);
