@@ -7,7 +7,7 @@ import Header from "./components/header";
 import ImageUploader from "./components/ImageUploader";
 
 export default function Home() {
-  const [result, setResult] = useState("// type a text prompt above and click 'Generate p5.js code'");
+  const [result, setResult] = useState("// type a text prompt or provide flashcard above and click 'Generate Microsim'");
   const [textInput, setTextInput] = useState("");
   const [waiting, setWaiting] = useState(false);
   const [sandboxRunning, setSandboxRunning] = useState(false);
@@ -20,17 +20,36 @@ export default function Home() {
   const [statusMessage, setStatusMessage] = useState(''); // Displays status messages to the user
   const [uploadProgress, setUploadProgress] = useState(0); // Manages the upload progress
   const [dragOver, setDragOver] = useState(false); // UI state for drag-and-drop
-  const [usertextInput, setUserTextInput] = useState(''); // Custom text input by the user
-  const [selectedOption, setSelectedOption] = useState('off'); // Option for detail level of analysis
-  const [maxTokens, setMaxTokens] = useState(50); // Max tokens for analysis
   const [base64Image, setBase64Image] = useState('');
-  const [analysisResult, setAnalysisResult] = useState(""); // State to hold the analysis result
+
+  const Prompts = [
+    {
+      value: "Review",
+      prompt: "You are an expert P5.js engineer with advanced degrees in Computation, Robotics, Engineering, Audio, Television and Energy domains. It's critically important that you review this code and the P5.js library input prompt, step by step to best illustrate this concept in this P5.js application.Please review the code and any errors and consider a different approach to this P5.js visualization. If there are images or a wikipedia article please review that now for visualization ideas.",
+    },
+    {
+      value: "Controls",
+      prompt: "You are an expert P5.js engineer with advanced degrees in Computation, Robotics, Engineering, Audio, Television and Energy domains. It's critically important that you review this code and the P5.js library input prompt, step by step to best illustrate this concept in this P5.js application.This code is pretty cool and close to what I was looking for. Can you please add inline controls to adjust key parameters?",
+    },
+    {
+      value: "Simplify",
+      prompt: "You are an expert P5.js engineer with advanced degrees in Computation, Robotics, Engineering, Audio, Television and Energy domains. It's critically important that you review this code and the P5.js library input prompt, step by step to best illustrate this concept in this P5.js application.Please reevaluate this code and this topic. It seems as if a simpler approach may help make a more effective visualization.",
+    },
+    {
+      value: "Chunk",
+      prompt: "You are an expert P5.js engineer with advanced degrees in Computation, Robotics, Engineering, Audio, Television and Energy domains. It's critically important that you review this code and the P5.js library input prompt, step by step to best illustrate this concept in this P5.js application.Please reevaluate this code and this topic. It seems as if a simpler approach may help make a more effective visualization. Please consider chunking the concept and try coding a smaller, single serving P5.js visualization based on a key concept.",
+    },
+    {
+      value: "Get Creative",
+      prompt: "You are an expert P5.js engineer with advanced degrees in Computation, Robotics, Engineering, Audio, Television and Energy domains. It's critically important that you review this code and the P5.js library input prompt, step by step to best illustrate this concept in this P5.js application.Obviously what we're doing isn't working. Review the concept and try a fun, silly or creative approach but with serious consideration of the P5.js library to make sure it works.",
+    },
+  ]
 
   const egArray = [
     {
-        value: "Conway's Game of Life",
-        prompt: "Conway's Game of Life",
-        code: `function setup() {
+      value: "Conway's Game of Life",
+      prompt: "Conway's Game of Life",
+      code: `function setup() {
           createCanvas(400, 400);
           background(255);
           frameRate(10);
@@ -86,9 +105,9 @@ export default function Home() {
         }`
     },
     {
-        value: "2D flocking animation",
-        prompt: "2D flocking animation",
-        code: `const flock = [];
+      value: "2D flocking animation",
+      prompt: "2D flocking animation",
+      code: `const flock = [];
   
       function setup() {
         createCanvas(800, 600);
@@ -184,9 +203,9 @@ export default function Home() {
       }`
     },
     {
-        value: "3D forms panning",
-        prompt: "Panning around a 3d scene with spheres, cubes, pyramids",
-        code: `const spheres = [];
+      value: "3D forms panning",
+      prompt: "Panning around a 3d scene with spheres, cubes, pyramids",
+      code: `const spheres = [];
       const cubes = [];
       const pyramids = [];
       
@@ -259,9 +278,9 @@ export default function Home() {
       }`
     },
     {
-        value: "Radial lines on click",
-        prompt: "A line in a random direction starts from where the user presses",
-        code: `function setup() {
+      value: "Radial lines on click",
+      prompt: "A line in a random direction starts from where the user presses",
+      code: `function setup() {
         createCanvas(400, 400);
       }
       
@@ -276,9 +295,9 @@ export default function Home() {
       }`
     },
     {
-        value: "Gravity balls on click",
-        prompt: "every click creates a bouncing ball that eventually rests on the floor",
-        code: `function setup() {
+      value: "Gravity balls on click",
+      prompt: "every click creates a bouncing ball that eventually rests on the floor",
+      code: `function setup() {
         createCanvas(400,400);
         rectMode(CENTER);
       }
@@ -339,9 +358,9 @@ export default function Home() {
       }`
     },
     {
-        value: "Bouncing balls on click",
-        prompt: "bouncing balls everywhere",
-        code: `let balls = [];
+      value: "Bouncing balls on click",
+      prompt: "bouncing balls everywhere",
+      code: `let balls = [];
 
       function setup() {
         createCanvas(windowWidth, windowHeight);
@@ -389,9 +408,9 @@ export default function Home() {
       }`
     },
     {
-        value: "Color noise static",
-        prompt: "CRT TV static",
-        code: `const numRects = 500;
+      value: "Color noise static",
+      prompt: "CRT TV static",
+      code: `const numRects = 500;
       const rectWidth = 2;
       const rectHeight = 2;
       let rects = [];
@@ -423,9 +442,9 @@ export default function Home() {
       }`
     },
     {
-        value: "Zen ripples",
-        prompt: "perlin noise moving ripples, super zen",
-        code: `const ripples = [];
+      value: "Zen ripples",
+      prompt: "perlin noise moving ripples, super zen",
+      code: `const ripples = [];
   
       function setup() {
         createCanvas(windowWidth, windowHeight);
@@ -465,7 +484,7 @@ export default function Home() {
         }
       }`
     },
-];
+  ];
 
 
   const handleFileChange = useCallback(async (selectedFile) => {
@@ -483,14 +502,16 @@ export default function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setWaiting(true);
+    setResult("// Please be patient, this may take a while...");
     if (!file) {
       setStatusMessage('No file selected!');
       return;
     }
-  
+
     setStatusMessage('Sending request...');
     setUploadProgress(40);
-  
+
     const response = await fetch('/api/upload_gpt4v/route', {
       method: 'POST',
       headers: {
@@ -498,24 +519,36 @@ export default function Home() {
       },
       body: JSON.stringify({
         file: base64Image,
-        prompt: usertextInput,
-        detail: selectedOption !== 'off' ? selectedOption : undefined,
-        max_tokens: maxTokens
       }),
     });
-  
+
     setUploadProgress(60);
-  
+    function removeComments(code) {
+      // Find the start and end indices of the code
+      const startIndex = code.indexOf("'''javascript") + 12;
+      const endIndex = code.lastIndexOf("'''");
+
+      // Extract the code between start and end indices
+      const extractedCode = code.substring(startIndex, endIndex);
+
+      return extractedCode;
+    }
+
     // Check if the response status is in the range of 200 to 299
     if (response.ok) {
       try {
         const apiResponse = await response.json();
         setUploadProgress(80);
-  
+
         if (apiResponse.success) {
           setanalysisResult(apiResponse.analysis);
           setStatusMessage('Analysis complete.');
           setUploadProgress(100);
+          const coderesult = apiResponse.analysis;
+          const extractedCode = coderesult.slice(14, -3);
+          setResult(extractedCode);
+          setSandboxRunning(true);
+          setWaiting(false);
         } else {
           setStatusMessage(apiResponse.message);
         }
@@ -528,7 +561,7 @@ export default function Home() {
       setStatusMessage(`HTTP error! status: ${response.status}`);
     }
   };
-  
+
   const handleDragOver = useCallback((event) => {
     event.preventDefault();
     setDragOver(true);
@@ -643,19 +676,28 @@ export default function Home() {
         <Header />
         <div className="flex flex-col gap-4 2xl:flex-row w-full">
           <div className="flex flex-col gap-4 2xl:w-1/2">
-            <TextInput key="textinput-01" textInput={textInput} onChange={textInputChange} onSubmit={textInputSubmit} waiting={waiting} selectVal={selVal} selectChange={textSelectChange} egArray={egArray} />
-        <ImageUploader
-          handleDrop={handleDrop}
-          handleDragOver={handleDragOver}
-          handleDragLeave={handleDragLeave}
-          handleFileChange={handleFileChange}
-          preview={preview}
-          uploadProgress={uploadProgress}
-          handleSubmit={handleSubmit}
-          statusMessage={statusMessage}
-          analysisresult={analysisresult}
-          dragOver={dragOver}
-        />
+            <TextInput
+              key="textinput-01"
+              textInput={textInput}
+              onChange={textInputChange}
+              onSubmit={textInputSubmit}
+              waiting={waiting}
+              selectVal={selVal}
+              selectChange={textSelectChange}
+              egArray={egArray} />
+            <ImageUploader
+              handleDrop={handleDrop}
+              handleDragOver={handleDragOver}
+              handleDragLeave={handleDragLeave}
+              handleFileChange={handleFileChange}
+              preview={preview}
+              uploadProgress={uploadProgress}
+              handleSubmit={handleSubmit}
+              statusMessage={statusMessage}
+              analysisresult={analysisresult}
+              dragOver={dragOver}
+              Prompts={Prompts}
+            />
             <Editor key="editor-01" result={result} onChange={editorChange} waiting={waiting} />
           </div>
           <div className="flex flex-col gap-4 2xl:w-1/2">
@@ -664,6 +706,6 @@ export default function Home() {
         </div>
       </div>
 
-   </>
+    </>
   );
 }

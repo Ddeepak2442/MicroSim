@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
     // Extracting the file (in base64 format) and an optional custom prompt 
     // from the request body. This is essential for processing the image using OpenAI's API.
-    const { file: base64Image, prompt: customPrompt, detail, max_tokens } = req.body;
+    const { file: base64Image } = req.body;
     
     // Check if the image file is included in the request. If not, return an error response.
     if (!base64Image) {
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     console.log('Received image in base64 format');
 
     // Utilize the provided custom prompt or a default prompt if it's not provided.
-    const promptText = customPrompt || "Do not explain, answer only in code.Given Image is flashcard that has 'prompt','Image related to prompt',and 'linkes of wikipedia and p5.js code'.If given image has all these three related items,Generate p5.js code for the extracted prompt and image present in the flashcard and answer only with code that is ready to run in compiler.";
+    const promptText = "Do not explain, answer only in code.Given Image is flashcard that has 'prompt','Image related to prompt',and 'linkes of wikipedia and p5.js code'.If given image has all these three related items,Generate p5.js code for the extracted prompt and image present in the flashcard and answer only with code that is ready to run in compiler.";
 
     // Log the chosen prompt
     console.log(`Using prompt: ${promptText}`);
@@ -44,7 +44,6 @@ export default async function handler(req, res) {
                 type: "image_url",
                 image_url: {
                   url: base64Image,
-                  ...(detail && { detail: detail }) // Include the detail field only if it exists
                 }
               }
             ]
@@ -57,11 +56,11 @@ export default async function handler(req, res) {
       console.log('Received response from OpenAI');
 
       // Extract and log the analysis from the response
-      const analysis = response?.choices[0]?.message?.content;
-      console.log('Analysis:', analysis);
+      const result = response?.choices[0]?.message?.content;
+      console.log('Analysis:', result);
 
       // Return the analysis in the response
-      return res.status(200).json({ success: true, analysis: analysis });
+      return res.status(200).json({ success: true, analysis: result });
     } catch (error) {
       // Log and handle any errors encountered during the request to OpenAI
       console.error('Error sending request to OpenAI:', error);
